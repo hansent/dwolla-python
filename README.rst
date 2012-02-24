@@ -18,11 +18,6 @@ Endpoints
 Register
  - Register User
 
-Transactions
- - Send
- - Request
-
-
 Examples
 --------
  - flask or appengine exmaple with oauth flow

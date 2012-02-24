@@ -13,7 +13,7 @@ print("ACCOUNT LOOKUP:")
 pprint(client.get_account_info("thomas.hansen@gmail.com"))
 
 print("NEARBY SPOTS:")
-pprint(client.get_spots_nearby())
+pprint(client.get_nearby_spots())
 
 
 
@@ -34,4 +34,5 @@ pprint(user.get_transaction_list())
 
 print("\n\nTRANSACTION STATS:")
 pprint(user.get_transaction_stats())
+
 
