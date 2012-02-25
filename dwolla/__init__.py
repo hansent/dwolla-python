@@ -10,22 +10,47 @@ class DwollaAPIError(Exception):
 
 class DwollaClientApp(object):
 
-    def __init__(self, client_id, client_secret, scope="accountinfofull"):
+    def __init__(self, client_id, client_secret):
         self.client_id = client_id
         self.client_secret = client_secret
         self.api_url = "https://www.dwolla.com/oauth/rest/"
         self.auth_url = "https://www.dwolla.com/oauth/v2/authenticate"
-        self.scope = "balance|contacts|transactions|request|send|accountinfofull"
+        self.token_url = "https://www.dwolla.com/oauth/v2/token"
 
-    def init_oauth_url(self, redirect_uri=None, scope=None, response_type='token'):
+    def parse_response(self, resp):
+        resp = json.loads(resp.content)
+        if resp['Success'] == False:
+            raise DwollaAPIError(resp['Message'])
+        return resp['Response']
+
+    def init_oauth_url(self, redirect_uri=None, scope="accountinfofull", response_type='code'):
+        '''
+            scope: balance|contacts|transactions|request|send|accountinfofull
+        '''
         params = {
             'client_id': self.client_id,
             'client_secret': self.client_secret,
             'response_type': response_type,
-            'scope' : self.scope
+            'scope' : scope 
         }
         if redirect_uri: params['redirect_uri'] = redirect_uri
         return "%s?%s" % (self.auth_url, urllib.urlencode(params))
+
+    def get_oauth_token(self, code, redirect_uri=None, grant_type="authorization_code"):
+        params = {
+            'client_id': self.client_id,
+            'client_secret': self.client_secret,
+            'code' : code,
+            'grant_type' : grant_type
+        }
+        if redirect_uri: params['redirect_uri'] = redirect_uri
+        resp = requests.get(self.token_url, params=params)
+        resp = json.loads(resp.content)
+        try:
+            return resp['access_token']
+        except:
+            err_msg = "<%(error)s>: %(error_description)s" % resp
+            raise DwollaAPIError()
 
     def api_request(self, resource, **params):
         params['client_id'] = self.client_id
@@ -35,10 +60,7 @@ class DwollaClientApp(object):
 
     def get(self, resource, **params):
         resp = self.api_request(resource, **params)
-        resp = json.loads(resp.content)
-        if resp['Success'] == False:
-            raise DwollaAPIError(resp['Message'])
-        return resp['Response']
+        return self.parse_response(resp)
 
     def get_account_info(self, account_id):
         return self.get("users/%s" % account_id)

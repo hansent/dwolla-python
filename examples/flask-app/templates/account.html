@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>python-dwolla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">python-dwolla</a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container">
+      <div class="row">
+
+
+        <h2>Balance: <span style="color:#3c3">{{balance}} </span></h2>
+
+        <h3>Account Details</h3>
+        <table class="table table-striped">
+          {% for prop, val in account.iteritems() %}
+          <tr>
+            <th>{{prop}}</th>
+            <td>{{val}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+
+        <h3>Account Transactions</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>To/From</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          {% for t in transactions %}
+          <tr>
+            <td>{{t.Date}}</td>
+            <td>{{t.SourceName}}{{t.DestinationName}}</td>
+            <td>{{t.Type}}</td>
+            <td>{{t.Status}}</td>
+            <td>{{t.Amount}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+
+
+      </div>
+    </div> <!-- /container -->
+
+
+
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
