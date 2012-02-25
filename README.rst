@@ -1,5 +1,5 @@
 =============================
-Python wraper for Dwolla API
+Python wrapper for Dwolla API
 =============================
 A simple python wrapper for `Dwolla's <http://www.dwolla.com>`_ `API's <https://www.dwolla.com/developers>`_.
 
