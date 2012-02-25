@@ -1,8 +1,6 @@
 from flask import Flask, url_for, request, redirect, render_template, session
 from dwolla import DwollaClientApp, DwollaUser
 
-
-
 app = Flask(__name__)
 app.config.from_pyfile("settings.cfg", silent=True)
 app.config.from_pyfile("settings.cfg.local", silent=True)
@@ -11,8 +9,6 @@ dwolla_app = DwollaClientApp(
     app.config['DWOLLA_APP_ID'],
     app.config['DWOLLA_APP_SECRET']
 )
-
-
 
 @app.route("/")
 def index():
@@ -28,7 +24,6 @@ def dwolla_oauth_return():
     session['access_token'] = dwolla_app.get_oauth_token(code, return_url)
     return redirect(url_for('account'))
 
-
 @app.route('/account')
 def account():
     user = DwollaUser(session['access_token'])
@@ -39,18 +34,6 @@ def account():
         contacts = user.get_contacts(),
     )
 
-
-
-
-
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-
-
-
 

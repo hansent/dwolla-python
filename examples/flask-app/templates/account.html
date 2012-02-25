@@ -20,20 +20,48 @@
 
     <div class="container">
       <div class="row">
+        <div class="span12">
+          <h1 class="pull-right">Balance: <span style="color:#3c3">{{balance}} </span></h1>
+        </div>
+      </div>
+      <div class="row">
 
 
-        <h2>Balance: <span style="color:#3c3">{{balance}} </span></h2>
 
-        <h3>Account Details</h3>
-        <table class="table table-striped">
-          {% for prop, val in account.iteritems() %}
-          <tr>
-            <th>{{prop}}</th>
-            <td>{{val}}</td>
-          </tr>
-          {% endfor %}
-        </table>
+        <div class="span4">
+          <h3>Contacts:</h3>
+          <table class="table table-striped">
+            {% for c in contacts %}
+            <tr>
+              <td><img src="{{c.Image}}" height="50" width="50"></td>
+              <td>
+                <h4>{{c.Name}}</h4>
+                <p>{{c.Id}}</p>
+                <a href="#" class="btn btn-primary disabled">Send Money</a>
+                <a href="#" class="btn disabled">Request Money</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
 
+
+        <div class="span8">
+          <h3>Account Details:</h3>
+          <table class="table table-striped">
+            {% for prop, val in account.iteritems() %}
+            <tr>
+              <th><h6>{{prop}}</h6></th>
+              <td><strong>{{val}}</strong></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+      </div>
+      <div class="row">
+
+        <div class="span12">
         <h3>Account Transactions</h3>
         <table class="table table-striped">
           <thead>
@@ -56,7 +84,7 @@
           {% endfor %}
         </table>
 
-
+      </div>
       </div>
     </div> <!-- /container -->
 
