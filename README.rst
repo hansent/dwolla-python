@@ -69,9 +69,6 @@ TODO
 Documentation & Packaging
 -------------------------
  - sphynx documentation
- - write setup.py
- - register on pypi
-
 
 Endpoints
 ---------
