@@ -87,8 +87,6 @@ class DwollaUser(object):
     def api_get(self, endpoint, **params):
         url = "%s/%s" % (self.api_url, endpoint)
         params['oauth_token'] = self.access_token
-        print(url)
-        print(params)
         return requests.get(url, params=params)
 
     def api_post(self, endpoint, data):
