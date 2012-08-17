@@ -25,11 +25,10 @@ class DwollaClientApp(object):
 
     def init_oauth_url(self, redirect_uri=None, scope="accountinfofull", response_type='code'):
         '''
-            scope: balance|contacts|transactions|request|send|accountinfofull
+            scope: balance|contacts|transactions|request|send|accountinfofull|funding
         '''
         params = {
             'client_id': self.client_id,
-            'client_secret': self.client_secret,
             'response_type': response_type,
             'scope' : scope 
         }
@@ -50,7 +49,7 @@ class DwollaClientApp(object):
             return resp['access_token']
         except:
             err_msg = "<%(error)s>: %(error_description)s" % resp
-            raise DwollaAPIError()
+            raise DwollaAPIError(err_msg)
 
     def api_request(self, resource, **params):
         params['client_id'] = self.client_id
@@ -157,5 +156,10 @@ class DwollaUser(object):
         if source_type: params['sourceType'] = source_type
         self.post('transactions/request', params)
 
+    def get_funding_sources(self):
+        return self.get('fundingsources')
 
-
+    def get_funding_source(self, source_id):
+        params = {}
+        params['fundingid'] = source_id
+        return self.get('fundingsources', **params)
