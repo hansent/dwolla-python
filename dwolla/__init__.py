@@ -19,31 +19,34 @@ class DwollaClientApp(object):
 
     def parse_response(self, resp):
         resp = json.loads(resp.content)
-        if resp['Success'] == False:
+        if resp['Success'] is False:
             raise DwollaAPIError(resp['Message'])
         return resp['Response']
 
     def init_oauth_url(self, redirect_uri=None, scope="accountinfofull"):
         '''
-            scope: balance|contacts|transactions|request|send|accountinfofull|funding
+        scope:
+            balance|contacts|transactions|request|send|accountinfofull|funding
         '''
         # dwolla api only uses response_type 'code'
         params = {
             'response_type': 'code',
             'client_id': self.client_id,
-            'scope' : scope
+            'scope': scope
         }
-        if redirect_uri: params['redirect_uri'] = redirect_uri
+        if redirect_uri:
+            params['redirect_uri'] = redirect_uri
         return "%s?%s" % (self.auth_url, urllib.urlencode(params))
 
-    def get_oauth_token(self, code, redirect_uri=None, grant_type="authorization_code"):
+    def get_oauth_token(self, code, **kwargs):
         params = {
             'client_id': self.client_id,
             'client_secret': self.client_secret,
-            'code' : code,
-            'grant_type' : grant_type
+            'code': code,
+            'grant_type': kwargs.get('grant_type', 'authorization_code')
         }
-        if redirect_uri: params['redirect_uri'] = redirect_uri
+        if 'redirect_uri' in kwargs:
+            params['redirect_uri'] = kwargs['redirect_uri']
         resp = requests.get(self.token_url, params=params)
         resp = json.loads(resp.content)
         try:
@@ -67,10 +70,10 @@ class DwollaClientApp(object):
 
     def get_nearby_spots(self, lat='41.59', lon='-93.62', range=10, limit=10):
         return self.get("contacts/nearby",
-            latitude = lat,
-            longitude = lon,
-            range = range,
-            limit  = limit )
+            latitude=lat,
+            longitude=lon,
+            range=range,
+            limit=limit)
 
 
 class DwollaUser(object):
@@ -81,7 +84,7 @@ class DwollaUser(object):
 
     def parse_response(self, resp):
         resp = json.loads(resp.content)
-        if resp['Success'] == False:
+        if resp['Success'] is False:
             raise DwollaAPIError(resp['Message'])
         return resp['Response']
 
@@ -94,7 +97,7 @@ class DwollaUser(object):
         url = "%s/%s" % (self.api_url, endpoint)
         headers = {'Content-Type': 'application/json'}
         data['oauth_token'] = self.access_token
-        data=json.dumps(data)
+        data = json.dumps(data)
         return requests.post(url, data=data, headers=headers)
 
     def get(self, endpoint, **params):
@@ -113,48 +116,67 @@ class DwollaUser(object):
 
     def get_contacts(self, search=None, types=None, limit=None):
         params = {}
-        if search: params['search'] = search
-        if types:  params['types'] = types
-        if limit:  params['limit'] = limit
+        if search:
+            params['search'] = search
+        if types:
+            params['types'] = types
+        if limit:
+            params['limit'] = limit
         return self.get("contacts", **params)
 
     def get_transaction(self, transaction_id):
         return self.get("transactions/%s" % int(transaction_id))
 
-    def get_transaction_list(self, since=None, types=None, limit=None, skip=None):
+    def get_transaction_list(self, since="", types="", limit=None, skip=None):
         if type(since) == datetime.datetime:
             since = since.strformat("%m-%d-%Y")
         params = {}
-        if since: params['sinceDate'] = since
-        if types: params['types'] = types
-        if limit: params['limit'] = limit
-        if skip:  params['skip'] = skip
+        if since:
+            params['sinceDate'] = since
+        if types:
+            params['types'] = types
+        if limit:
+            params['limit'] = limit
+        if skip:
+            params['skip'] = skip
         return self.get("transactions", **params)
 
-    def get_transaction_stats(self, types=None, start_date=None, end_date=None):
+    def get_transaction_stats(self, types=None, start_date="", end_date=""):
         if type(start_date) == datetime.datetime:
             start_date = start_date.strformat("%m-%d-%Y")
         if type(end_date) == datetime.datetime:
             end_date = end_date.strformat("%m-%d-%Y")
         params = {}
-        if types: params['types'] = types
-        if types: params['startDate'] = start_date
-        if types: params['endDate'] = end_date
+        if types:
+            params['types'] = types
+        if types:
+            params['startDate'] = start_date
+        if types:
+            params['endDate'] = end_date
         self.get("transactions/stats", **params)
 
-    def send_funds(self, amount, dest, pin, notes=None, assume_cost=None, facil_amount=None, dest_type=None ):
-        params = { 'pin':pin, 'destinationId':dest, 'amount':amount}
-        if notes: params['notes'] = notes
-        if assume_cost: params['assume_cost'] = assume_cost
-        if facil_amount: params['facilitatorAmount'] = facil_amount
-        if dest_type: params['destinationType'] = dest_type
+    def send_funds(self, amount, dest, pin,
+            notes=None, assume_cost=None, facil_amount=None, dest_type=None):
+        params = {'pin': pin, 'destinationId': dest, 'amount': amount}
+        if notes:
+            params['notes'] = notes
+        if assume_cost:
+            params['assume_cost'] = assume_cost
+        if facil_amount:
+            params['facilitatorAmount'] = facil_amount
+        if dest_type:
+            params['destinationType'] = dest_type
         self.post('transactions/send', params)
 
-    def request_funds(self, amount, source, pin, notes=None, facil_amount=None, source_type=None ):
-        params = { 'pin':pin, 'sourceId':source, 'amount':amount}
-        if notes: params['notes'] = notes
-        if facil_amount: params['facilitatorAmount'] = facil_amount
-        if source_type: params['sourceType'] = source_type
+    def request_funds(self, amount, source, pin,
+            notes=None, facil_amount=None, source_type=None):
+        params = {'pin': pin, 'sourceId': source, 'amount': amount}
+        if notes:
+            params['notes'] = notes
+        if facil_amount:
+            params['facilitatorAmount'] = facil_amount
+        if source_type:
+            params['sourceType'] = source_type
         self.post('transactions/request', params)
 
     def get_funding_sources(self):
