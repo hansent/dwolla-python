@@ -23,14 +23,15 @@ class DwollaClientApp(object):
             raise DwollaAPIError(resp['Message'])
         return resp['Response']
 
-    def init_oauth_url(self, redirect_uri=None, scope="accountinfofull", response_type='code'):
+    def init_oauth_url(self, redirect_uri=None, scope="accountinfofull"):
         '''
             scope: balance|contacts|transactions|request|send|accountinfofull|funding
         '''
+        # dwolla api only uses response_type 'code'
         params = {
+            'response_type': 'code',
             'client_id': self.client_id,
-            'response_type': response_type,
-            'scope' : scope 
+            'scope' : scope
         }
         if redirect_uri: params['redirect_uri'] = redirect_uri
         return "%s?%s" % (self.auth_url, urllib.urlencode(params))
