@@ -1,95 +1,63 @@
-=============================
-Python wrapper for Dwolla API
-=============================
-A simple python wrapper for `Dwolla's <http://www.dwolla.com>`_ `API's <https://www.dwolla.com/developers>`_.
+# dwolla-python: Python Wrapper for Dwolla's API
+=================================================================================
 
-Usage
-=====
+## Version
+1.1.0
 
-Basic Usage::
+## Requirements
+- [Python](http://www.python.org/)
 
-        from dwolla import DwollaClientApp
-        
-        client =  DwollaClientApp(APP_ID, APP_SECRET)
-        
-        #get some basic info on an account
-        client.get_account_info("thomas.hansen@gmail.com") 
-        client.get_account_info("812-451-5647") 
+## Installation
 
-        #returns a list of nearby dwolla spots
-        client.get_nearby_spots(lat='41.59', lon='-93.62')  
+Automatic installtion:
 
+    pip install dwolla
 
-Examples
------------
+## Usage
 
-You can also check out the examples for more usage examples.  To try flask-app
-just install flask, edit settings.cfg (or copy it to local file 
-"settings.cfg.local") and run::
-        
-        $ python examples/flask-app/main.py
-
-
-
-Getting OAuth Tokens
-----------------------
-
-The flask-app shows you how to get OAuth tokens and use them.  The basic
-steps are as follows::
     
-        from dwolla import DwollaClientApp
-        client =  DwollaClientApp(APP_ID, APP_SECRET)
-        
-        #redirect your user to dwolla oauth url
-        auth_url = app.init_oauth_url(scope="AccountInfoFull")
-        redirect(auth_url)
+## Examples
 
+This repo includes various usage examples, including:
 
-Then when the user is redirected back to your page::
+## Credits
 
-        code = request.args.get("code")
-        access_token = dwolla_app.get_oauth_token(code)
+This wrapper is a forked extension of Thomas Hansen's 'dwolla-python' module.
 
+Thomas Hansen &lt;thomas.hansen@gmail.com&gt;
+Jordan Bouvier &lt;jbouvier@gmail.com&gt;
+Michael Schonfeld &lt;michael@dwolla.com&gt;
 
-With a valid access token, you can do anything your scope allows::
+## Support
 
-        #create user object with access token
-        user = DwollaUser(access_token)
+Dwolla API &lt;api@dwolla.com&gt;
+Michael Schonfeld &lt;michael@dwolla.com&gt;
 
-        #get account info, balance, etc
-        info = user.get_account_info()
-        balance = user.get_balance()
+## References / Documentation
 
-        #send some money to thomas :P specifying amount, receiverID and PIN
-        user.send_funds(10.0, "812-647-0748", '1234')
+http://developers.dwolla.com/dev
 
+## License 
 
-TODO 
-====
-Documentation & Packaging
--------------------------
- - sphynx documentation
+(The MIT License)
 
-Endpoints
----------
-Register
- - Register User
+Copyright (c) 2012 Dwolla &lt;michael@dwolla.com&gt;
 
-Examples
---------
- - flask or appengine exmaple with oauth flow
- - qr code checkout?
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-
-REFERENCES
-==========
-https://www.dwolla.com/developers
-
-
-
-LICENSE
-=======
-This code is licensed under the MIT license.  For a copy of the license,
-check the LICENSE file.
-
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
