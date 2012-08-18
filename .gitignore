@@ -1,7 +1,6 @@
 *.pyc
 *.local
 .idea
-.pypirc
 .Python
 bin/
 include/
@@ -9,3 +8,4 @@ lib/
 .DS_Store
 dist/
 dwolla.egg-info/
+.pypirc
