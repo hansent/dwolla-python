@@ -24,14 +24,14 @@ This repo includes various usage examples, including:
 
 This wrapper is a forked extension of Thomas Hansen's 'dwolla-python' module.
 
-Thomas Hansen &lt;thomas.hansen@gmail.com&gt;
-Jordan Bouvier &lt;jbouvier@gmail.com&gt;
-Michael Schonfeld &lt;michael@dwolla.com&gt;
+- Thomas Hansen &lt;thomas.hansen@gmail.com&gt;
+- Jordan Bouvier &lt;jbouvier@gmail.com&gt;
+- Michael Schonfeld &lt;michael@dwolla.com&gt;
 
 ## Support
 
-Dwolla API &lt;api@dwolla.com&gt;
-Michael Schonfeld &lt;michael@dwolla.com&gt;
+- Dwolla API &lt;api@dwolla.com&gt;
+- Michael Schonfeld &lt;michael@dwolla.com&gt;
 
 ## References / Documentation
 
