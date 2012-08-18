@@ -37,7 +37,10 @@ class DwollaClientApp(object):
         '''
         resp = json.loads(resp.content)
         if resp['Success'] is False:
-            raise DwollaAPIError(resp['Message'])
+            err_msg = resp['Message']
+            if resp['Response']:
+                err_msg += ": " + json.dumps(resp['Response'])
+            raise DwollaAPIError(err_msg)
         return resp['Response']
 
     def init_oauth_url(self, redirect_uri=None, scope="accountinfofull"):
@@ -109,6 +112,14 @@ class DwollaClientApp(object):
         url = "%s/%s" % (self.api_url, resource)
         return requests.get(url, params=params)
 
+    def api_post(self, endpoint, data):
+        url = "%s%s" % (self.api_url, endpoint)
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps(data)
+        print(url)
+        print(data)
+        return requests.post(url, data=data, headers=headers)
+
     def get(self, resource, **params):
         '''
         Get an API resource via the REST api. E.g. to get a certain user::
@@ -122,6 +133,10 @@ class DwollaClientApp(object):
             etc.)
         '''
         resp = self.api_request(resource, **params)
+        return self.parse_response(resp)
+
+    def post(self, endpoint, data):
+        resp = self.api_post(endpoint, data)
         return self.parse_response(resp)
 
     def get_account_info(self, account_id):
@@ -154,6 +169,52 @@ class DwollaClientApp(object):
             range=range,
             limit=limit)
 
+    def register_user(self, email, password, pin, firstName, lastName, address, address2, city, state, zip, phone, dateOfBirth, organization=None, ein=None, type='Personal', acceptTerms='true'):
+        '''
+        Register a new Dwolla user account
+
+        :param email: (required) Email address of the new user
+        :param password: (required) Desired user's password
+        :param pin: (required) Desired 4 digit PIN
+        :param firstName: (required) User's first name
+        :param lastName: (required) User's last name
+        :param address: (required) Line 1 of the address
+        :param address2: (optional) Line 2 of the address
+        :param city: (required) City.
+        :param state: (required) USA state or territory two character code.
+        :param zip: (required) Postal code or zip code.
+        :param phone: (required) Primary phone number of the user.
+        :param dateOfBirth: (required) Date of birth of the user.
+        :param organization: (optional) Company name for a commercial or non-profit account.
+        :param type: (optional) Account type of the new user. Defaults to Personal. Options are Personal, Commercial, and NonProfit.
+        :param acceptTerms: (optional) Did user agree to Dwolla's TOS?
+        '''
+        params = {}
+        params['client_id'] = self.client_id
+        params['client_secret'] = self.client_secret
+        params['email'] = email
+        params['password'] = password
+        params['firstName'] = firstName
+        params['lastName'] = lastName
+        params['address'] = address
+        params['address2'] = address2
+        params['city'] = city
+        params['state'] = state
+        params['zip'] = zip
+        params['phone'] = phone
+        params['dateOfBirth'] = dateOfBirth
+        params['type'] = type
+        params['pin'] = pin
+        params['acceptTerms'] = acceptTerms
+
+        if address2:
+            params['address2'] = address2
+        if ein:
+            params['ein'] = ein
+        if organization:
+            params['organization'] = organization
+
+        return self.post("register/", params)
 
 class DwollaUser(object):
     '''
