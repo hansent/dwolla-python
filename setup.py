@@ -3,12 +3,12 @@
 from setuptools import setup
 
 setup(name='dwolla',
-      version='1.0',
+      version='1.1',
       description='Dwolla Client API',
       author='Thomas Hansen',
       author_email='thomas.hansen@gmail.com',
-      maintainer='Jordan Bouvier',
-      maintainer_email='jbouvier@gmail.com',
+      maintainer='Michael Schonfeld',
+      maintainer_email='michael@dwolla.com',
       url='https://github.com/jbouvier/dwolla-python',
       packages=['dwolla'],
       install_requires=['requests>=0.11'],
