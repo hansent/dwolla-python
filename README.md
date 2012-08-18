@@ -26,6 +26,7 @@ This repo includes various usage examples, including:
 * Grabbing a user's contacts [contacts.py]
 * Listing a user's funding sources [fundingSources.py]
 * Creating offsite gateway sessions [offsiteGateway.py]
+* Registering a new Dwolla user account [registerUser.py]
 
 ## Credits
 
