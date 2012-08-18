@@ -20,6 +20,13 @@ Automatic installtion:
 
 This repo includes various usage examples, including:
 
+* Authenticating with OAuth [oauth.py]
+* Sending money [send.py]
+* Fetching account information [accountInfo.py]
+* Grabbing a user's contacts [contacts.py]
+* Listing a user's funding sources [fundingSources.py]
+* Creating offsite gateway sessions [offsiteGateway.py]
+
 ## Credits
 
 This wrapper is a forked extension of Thomas Hansen's 'dwolla-python' module.
