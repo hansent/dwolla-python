@@ -1,6 +1,7 @@
 *.pyc
 *.local
 .idea
+.pypirc
 .Python
 bin/
 include/
