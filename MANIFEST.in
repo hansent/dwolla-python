@@ -2,3 +2,4 @@ include dwolla/*.py
 include LICENSE
 include README.rst
 include setup.py
+include requirements.txt
